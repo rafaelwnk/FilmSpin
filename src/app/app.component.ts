@@ -6,7 +6,7 @@ import { HistoryPageComponent } from "./pages/history-page/history-page.componen
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, HomePageComponent, HistoryPageComponent],
-  template: '<app-history-page><app-history-page>'
+  template: '<app-home-page>'
 })
 export class AppComponent {
 
