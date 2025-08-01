@@ -1,17 +1,41 @@
 <div class="uk-flex uk-flex-center uk-flex-middle" uk-grid>
     <div class="uk-width-1-2@m">
+        @if (!interactionPending) {
+        @if (isUndefined) {
+        <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
+            <div class="uk-card uk-card-body">
+                <span class="uk-card-title">Nenhum filme encontrado</span>
+            </div>
+        </div>
+        }
+        @if (film$ | async; as film) {
         <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
             <div class="uk-card uk-card-secondary uk-card-hover uk-border-rounded uk-width-1-2@m">
                 <div class="uk-card-media-top">
-                    <img src="https://image.tmdb.org/t/p/w500/neZ0ykEsPqxamsX6o5QNUFILQrz.jpg" width="500" height="750"
-                        alt="">
+                    <img src="https://image.tmdb.org/t/p/w500/{{ film.poster_path }}" width="500" height="750" alt="">
                 </div>
                 <div class="uk-card-body">
-                    <h3 class="uk-card-title">Akira</h3>
-                    <p>Filme muito massa</p>
+                    <h3 class="uk-card-title">{{ film.title }} <span class="uk-article-meta">({{ film.release_date |
+                            date:'yyyy' }})</span></h3>
+                    <p> {{ film.genres.join(', ') }} <span class="uk-margin-small-left uk-margin-small-right">•</span>
+                        <span uk-icon="icon: star; ratio:0.9"></span><span>
+                            {{ film.vote_average | number:'1.1-1' }}
+                        </span>
+                    </p>
+                    <p class="overview-limited">"{{ film.overview }}"</p>
                 </div>
             </div>
         </div>
+        }
+        } @else {
+        <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
+            <div class="uk-card uk-card-body">
+                <span class="uk-card-title">Aperte o botão <span class="uk-light uk-text-uppercase">SPIN</span> para
+                    gerar um filme
+                    aleatório</span>
+            </div>
+        </div>
+        }
     </div>
     <div class="uk-width-1-2@m">
         <div
@@ -20,30 +44,30 @@
                 <h1 class="uk-heading-medium">FilmSpin</h1>
                 <p class="uk-margin-medium-bottom uk-text-small">Sem ideia de filme? Filtre e descubra com um clique!
                 </p>
-                <form>
+                <form [formGroup]="form">
                     <div class="uk-margin">
                         <div uk-form-custom="target: > * > span:first-child">
-                            <select aria-label="Custom controls">
-                                <option>Todos os gêneros</option>
-                                <option>Ação</option>
-                                <option>Aventura</option>
-                                <option>Animação</option>
-                                <option>Comédia</option>
-                                <option>Crime</option>
-                                <option>Documentário</option>
-                                <option>Drama</option>
-                                <option>Família</option>
-                                <option>Fantasia</option>
-                                <option>História</option>
-                                <option>Terror</option>
-                                <option>Música</option>
-                                <option>Mistério</option>
-                                <option>Romance</option>
-                                <option>Ficcção científica</option>
-                                <option>Cinema TV</option>
-                                <option>Thriller</option>
-                                <option>Guerra</option>
-                                <option>Faroeste</option>
+                            <select formControlName="genre" aria-label="Custom controls">
+                                <option value="">Todos os gêneros</option>
+                                <option value="28">Ação</option>
+                                <option value="12">Aventura</option>
+                                <option value="16">Animação</option>
+                                <option value="35">Comédia</option>
+                                <option value="80">Crime</option>
+                                <option value="99">Documentário</option>
+                                <option value="18">Drama</option>
+                                <option value="10751">Família</option>
+                                <option value="14">Fantasia</option>
+                                <option value="36">História</option>
+                                <option value="27">Terror</option>
+                                <option value="10402">Música</option>
+                                <option value="9648">Mistério</option>
+                                <option value="10749">Romance</option>
+                                <option value="878">Ficção científica</option>
+                                <option value="10770">Cinema TV</option>
+                                <option value="53">Thriller</option>
+                                <option value="10752">Guerra</option>
+                                <option value="37">Faroeste</option>
                             </select>
                             <button class="uk-button uk-button-default uk-border-rounded" type="button" tabindex="-1">
                                 <span></span>
@@ -53,15 +77,21 @@
                     </div>
                     <div class="uk-margin">
                         <div uk-form-custom="target: > * > span:first-child">
-                            <select aria-label="Custom controls">
-                                <option>Todas as décadas</option>
-                                <option>1960s</option>
-                                <option>1970s</option>
-                                <option>1980s</option>
-                                <option>1990s</option>
-                                <option>2000s</option>
-                                <option>2010s</option>
-                                <option>2020s</option>
+                            <select formControlName="decade" aria-label="Custom controls">
+                                <option value="">Todas as décadas</option>
+                                <option value="1900">1900s</option>
+                                <option value="1910">1910s</option>
+                                <option value="1920">1920s</option>
+                                <option value="1930">1930s</option>
+                                <option value="1940">1940s</option>
+                                <option value="1950">1950s</option>
+                                <option value="1960">1960s</option>
+                                <option value="1970">1970s</option>
+                                <option value="1980">1980s</option>
+                                <option value="1990">1990s</option>
+                                <option value="2000">2000s</option>
+                                <option value="2010">2010s</option>
+                                <option value="2020">2020s</option>
                             </select>
                             <button class="uk-button uk-button-default uk-border-rounded" type="button" tabindex="-1">
                                 <span></span>
@@ -71,18 +101,17 @@
                     </div>
                     <div class="uk-margin">
                         <div uk-form-custom="target: > * > span:first-child">
-                            <select aria-label="Custom controls">
-                                <option>Todas as avaliações</option>
-                                <option>Nota 1+</option>
-                                <option>Nota 2+</option>
-                                <option>Nota 3+</option>
-                                <option>Nota 4+</option>
-                                <option>Nota 5+</option>
-                                <option>Nota 6+</option>
-                                <option>Nota 7+</option>
-                                <option>Nota 8+</option>
-                                <option>Nota 9+</option>
-                                <option>Nota 10</option>
+                            <select formControlName="rating" aria-label="Custom controls">
+                                <option value="">Todas as avaliações</option>
+                                <option value="1">Nota 1+</option>
+                                <option value="2">Nota 2+</option>
+                                <option value="3">Nota 3+</option>
+                                <option value="4">Nota 4+</option>
+                                <option value="5">Nota 5+</option>
+                                <option value="6">Nota 6+</option>
+                                <option value="7">Nota 7+</option>
+                                <option value="8">Nota 8+</option>
+                                <option value="9">Nota 9+</option>
                             </select>
                             <button class="uk-button uk-button-default uk-border-rounded" type="button" tabindex="-1">
                                 <span></span>
@@ -91,7 +120,8 @@
                         </div>
                     </div>
                 </form>
-                <button class="uk-button uk-button-secondary uk-border-rounded uk-margin-small-top">Spin</button>
+                <button class="uk-button uk-button-secondary uk-border-rounded uk-margin-small-top"
+                    (click)="submit()">Spin</button>
                 <a [routerLink]="['/history']" class="uk-icon-link uk-margin-medium-top" uk-icon="history"></a>
             </div>
         </div>
