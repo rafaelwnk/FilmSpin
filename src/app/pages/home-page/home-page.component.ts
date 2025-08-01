@@ -5,6 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { map, Observable, pipe, switchMap } from 'rxjs';
 import { Film } from '../../models/film.model';
+import { HistoryUtil } from '../../utils/history.util';
 
 @Component({
   selector: 'app-home-page',
@@ -28,11 +29,10 @@ export class HomePageComponent {
     this.film$ = this.service.getPages(this.form.value).pipe(
       switchMap((response: any) => {
         let page;
-        if (response.total_pages > 500) {
+        if (response.total_pages > 500)
           page = Math.floor(Math.random() * 500) + 1;
-        } else {
+        else
           page = Math.floor(Math.random() * response.total_pages) + 1;
-        }
         return this.service.getRandomFilm(this.form.value, page);
       }),
       switchMap((response: any) => {
@@ -41,7 +41,10 @@ export class HomePageComponent {
         this.isUndefined = !selectedFilm;
         return this.service.getGenres().pipe(
           map((response: any) => {
-            return new Film(selectedFilm, response.genres); 
+            let film = new Film(selectedFilm, response.genres)
+            if (!this.isUndefined)
+              HistoryUtil.add(film);
+            return film;
           })
         );
       })

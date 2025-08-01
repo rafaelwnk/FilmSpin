@@ -1,6 +1,7 @@
 import { Genre } from "./genre.model";
 
 export class Film {
+    id: number;
     title: string;
     genres: string[];
     overview: string;
@@ -9,6 +10,7 @@ export class Film {
     vote_average?: number;
 
     constructor(data: any, allGenres: Genre[]) {
+        this.id = data.id;
         this.title = data.title || '';
         this.overview = data.overview || '';
         this.poster_path = data.poster_path || '';

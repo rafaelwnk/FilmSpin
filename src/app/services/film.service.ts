@@ -20,16 +20,16 @@ export class FilmService {
     }
 
     getRandomFilm(filmRequest: FilmRequest, page: number) {
-        if (filmRequest.decade == '') {
+        if (filmRequest.decade == '')
             return this.http.get(`${this.url}?language=pt-BR&vote_average.gte=${filmRequest.rating}&with_genres=${filmRequest.genre}&vote_count.gte=250&page=${page}`, { headers: this.composeHeaders() });
-        }
+
         return this.http.get(`${this.url}?language=pt-BR&primary_release_date.gte=${filmRequest.decade}-01-01&primary_release_date.lte=${Number(filmRequest.decade) + 9}-12-31&vote_average.gte=${filmRequest.rating}&with_genres=${filmRequest.genre}&vote_count.gte=250&page=${page}`, { headers: this.composeHeaders() });
     }
 
     getPages(filmRequest: FilmRequest) {
-        if (filmRequest.decade == '') {
+        if (filmRequest.decade == '')
             return this.http.get(`${this.url}?language=pt-BR&vote_average.gte=${filmRequest.rating}&with_genres=${filmRequest.genre}&vote_count.gte=250`, { headers: this.composeHeaders() });
-        }
+        
         return this.http.get(`${this.url}?language=pt-BR&primary_release_date.gte=${filmRequest.decade}-01-01&primary_release_date.lte=${Number(filmRequest.decade) + 9}-12-31&vote_average.gte=${filmRequest.rating}&with_genres=${filmRequest.genre}}&vote_count.gte=250`, { headers: this.composeHeaders() });
     }
 
