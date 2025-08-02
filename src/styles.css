@@ -2,10 +2,6 @@
   font-family: 'Montserrat', sans-serif !important;
 }
 
-.overview-limited {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.placeholder {
+  width: 50px !important;
 }

@@ -10,7 +10,7 @@
         }
         @if (film$ | async; as film) {
         <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
-            <div class="uk-card uk-card-secondary uk-card-hover uk-border-rounded uk-width-1-2@m">
+            <div class="uk-card uk-card-secondary uk-card-hover uk-border-rounded uk-text-center uk-width-1-2@m">
                 <div class="uk-card-media-top">
                     <img src="https://image.tmdb.org/t/p/w500/{{ film.poster_path }}" width="500" height="750" alt="">
                 </div>
@@ -22,10 +22,11 @@
                             {{ film.vote_average | number:'1.1-1' }}
                         </span>
                     </p>
-                    <p class="overview-limited">"{{ film.overview }}"</p>
+                    <a class="uk-button uk-button-text uk-text-muted" href="#film-description-modal" uk-toggle>Descrição</a>
                 </div>
             </div>
         </div>
+        <app-film-description-modal [film]="film"></app-film-description-modal>
         }
         } @else {
         <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">

@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
 import { map, Observable, pipe, switchMap } from 'rxjs';
 import { Film } from '../../models/film.model';
 import { HistoryUtil } from '../../utils/history.util';
+import { FilmDescriptionModalComponent } from "../../components/film-description-modal/film-description-modal.component";
 
 @Component({
   selector: 'app-home-page',
-  imports: [RouterModule, ReactiveFormsModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule, FilmDescriptionModalComponent],
   templateUrl: './home-page.component.html'
 })
 export class HomePageComponent {
