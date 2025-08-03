@@ -1,49 +1,11 @@
 <div class="uk-flex uk-flex-center uk-flex-middle" uk-grid>
     <div class="uk-width-1-2@m">
-        @if (!interactionPending) {
-        @if (isUndefined) {
-        <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
-            <div class="uk-card uk-card-body">
-                <span class="uk-card-title">Nenhum filme encontrado</span>
-            </div>
-        </div>
-        }
-        @if (film$ | async; as film) {
-        <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
-            <div class="uk-card uk-card-secondary uk-card-hover uk-border-rounded uk-text-center uk-width-1-2@m">
-                <div class="uk-card-media-top">
-                    <img src="https://image.tmdb.org/t/p/w500/{{ film.poster_path }}" width="500" height="750" alt="">
-                </div>
-                <div class="uk-card-body">
-                    <h3 class="uk-card-title">{{ film.title }} <span class="uk-article-meta">({{ film.release_date |
-                            date:'yyyy' }})</span></h3>
-                    <p> {{ film.genres.join(', ') }} <span class="uk-margin-small-left uk-margin-small-right">•</span>
-                        <span uk-icon="icon: star; ratio:0.9"></span><span>
-                            {{ film.vote_average | number:'1.1-1' }}
-                        </span>
-                    </p>
-                    <a class="uk-button uk-button-text uk-text-muted" href="#film-description-modal" uk-toggle>Descrição</a>
-                </div>
-            </div>
-        </div>
-        <app-film-description-modal [film]="film"></app-film-description-modal>
-        }
-        } @else {
-        <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
-            <div class="uk-card uk-card-body">
-                <span class="uk-card-title">Aperte o botão <span class="uk-light uk-text-uppercase">SPIN</span> para
-                    gerar um filme
-                    aleatório</span>
-            </div>
-        </div>
-        }
-    </div>
-    <div class="uk-width-1-2@m">
         <div
             class="uk-card uk-card-default uk-card-body uk-border-rounded uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
             <div class="uk-flex uk-flex-column uk-flex-middle">
                 <h1 class="uk-heading-medium">FilmSpin</h1>
-                <p class="uk-margin-medium-bottom uk-text-small">Sem ideia de filme? Filtre e descubra com um clique!
+                <p class="uk-margin-medium-bottom uk-text-small uk-text-center">Sem ideia de filme? Filtre e descubra
+                    com um clique!
                 </p>
                 <form [formGroup]="form">
                     <div class="uk-margin">
@@ -121,10 +83,50 @@
                         </div>
                     </div>
                 </form>
-                <button class="uk-button uk-button-secondary uk-border-rounded uk-margin-small-top"
-                    (click)="submit()">Spin</button>
+                <a class="uk-button uk-button-secondary uk-border-rounded uk-margin-small-top"
+                    (click)="submit()" href="#film" uk-scroll>Spin</a>
                 <a [routerLink]="['/history']" class="uk-icon-link uk-margin-medium-top" uk-icon="history"></a>
             </div>
         </div>
+    </div>
+    <div id="film" class="uk-width-1-2@m uk-flex-first@m">
+        @if (!interactionPending) {
+        @if (isUndefined) {
+        <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
+            <div class="uk-card uk-card-body uk-text-center">
+                <span class="uk-card-title">Nenhum filme encontrado</span>
+            </div>
+        </div>
+        }
+        @if (film$ | async; as film) {
+        <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
+            <div class="uk-card uk-card-secondary uk-card-hover uk-border-rounded uk-text-center uk-width-1-2@m">
+                <div class="uk-card-media-top">
+                    <img src="https://image.tmdb.org/t/p/w500/{{ film.poster_path }}" width="500" height="750" alt="">
+                </div>
+                <div class="uk-card-body">
+                    <h3 class="uk-card-title">{{ film.title }} <span class="uk-article-meta">({{ film.release_date |
+                            date:'yyyy' }})</span></h3>
+                    <p> {{ film.genres.join(', ') }} <span class="uk-margin-small-left uk-margin-small-right">•</span>
+                        <span uk-icon="icon: star; ratio:0.9"></span><span>
+                            {{ film.vote_average | number:'1.1-1' }}
+                        </span>
+                    </p>
+                    <a class="uk-button uk-button-text uk-text-muted" href="#film-description-modal"
+                        uk-toggle>Descrição</a>
+                </div>
+            </div>
+        </div>
+        <app-film-description-modal [film]="film"></app-film-description-modal>
+        }
+        } @else {
+        <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
+            <div class="uk-card uk-card-body uk-text-center">
+                <span class="uk-card-title">Aperte o botão <span class="uk-light uk-text-uppercase">SPIN</span> para
+                    gerar um filme
+                    aleatório</span>
+            </div>
+        </div>
+        }
     </div>
 </div>

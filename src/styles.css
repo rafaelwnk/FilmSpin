@@ -1,7 +1,4 @@
 * {
   font-family: 'Montserrat', sans-serif !important;
-}
-
-.placeholder {
-  width: 50px !important;
+  scroll-behavior: smooth !important;
 }

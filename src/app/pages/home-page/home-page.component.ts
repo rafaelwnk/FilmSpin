@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FilmService } from '../../services/film.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { map, Observable, pipe, switchMap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { Film } from '../../models/film.model';
 import { HistoryUtil } from '../../utils/history.util';
 import { FilmDescriptionModalComponent } from "../../components/film-description-modal/film-description-modal.component";
