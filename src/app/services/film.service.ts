@@ -10,12 +10,12 @@ import { FilmRequest } from "../models/film-request.model";
 export class FilmService {
     public url = "https://api.themoviedb.org/3/discover/movie";
     public genreUrl = "https://api.themoviedb.org/3/genre/movie/list?language=pt-BR";
-    public apiKey = environment.tmdbKey;
+    public tmdbToken = environment.tmdbToken;
 
     constructor(private http: HttpClient) { }
 
     public composeHeaders() {
-        const headers = new HttpHeaders().set('Authorization', `bearer ${this.apiKey}`);
+        const headers = new HttpHeaders().set('Authorization', `bearer ${this.tmdbToken}`);
         return headers;
     }
 
