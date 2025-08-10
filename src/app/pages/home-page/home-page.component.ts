@@ -7,6 +7,7 @@ import { map, Observable, switchMap } from 'rxjs';
 import { Film } from '../../models/film.model';
 import { HistoryUtil } from '../../utils/history.util';
 import { FilmDescriptionModalComponent } from "../../components/film-description-modal/film-description-modal.component";
+import { ApiResponse } from '../../models/api-response.model';
 
 @Component({
   selector: 'app-home-page',
@@ -14,41 +15,33 @@ import { FilmDescriptionModalComponent } from "../../components/film-description
   templateUrl: './home-page.component.html'
 })
 export class HomePageComponent {
-  public film$!: Observable<Film>;
+  public film?: Film;
   public form: FormGroup = new FormGroup({
     genre: new FormControl<string>('', [Validators.required]),
     decade: new FormControl<string>('', [Validators.required]),
     rating: new FormControl<string>('', [Validators.required])
   })
+  public errorMessage!: string;
   public interactionPending = true;
-  public isUndefined = false;
+  public hasError = false;
 
   constructor(private service: FilmService) { }
 
   submit() {
     this.interactionPending = false;
-    this.film$ = this.service.getPages(this.form.value).pipe(
-      switchMap((response: any) => {
-        let page;
-        if (response.total_pages > 500)
-          page = Math.floor(Math.random() * 500) + 1;
-        else
-          page = Math.floor(Math.random() * response.total_pages) + 1;
-        return this.service.getRandomFilm(this.form.value, page);
-      }),
-      switchMap((response: any) => {
-        const indexFilm = Math.floor(Math.random() * response.results.length);
-        const selectedFilm = response.results[indexFilm];
-        this.isUndefined = !selectedFilm;
-        return this.service.getGenres().pipe(
-          map((response: any) => {
-            let film = new Film(selectedFilm, response.genres)
-            if (!this.isUndefined)
-              HistoryUtil.add(film);
-            return film;
-          })
-        );
+    this.service.getRandomFilm(this.form.value)
+      .subscribe({
+        next: (response: ApiResponse<Film>) => {
+          this.film = response.data;
+          this.film.genresString = this.film.genres.map(x => x.name).join(', ')
+          this.hasError = false;
+          HistoryUtil.add(this.film);
+        },
+        error: (err: any) => {
+          this.hasError = true;
+          this.film = undefined;
+          this.errorMessage = err.error.message;
+        }
       })
-    );
   }
 }

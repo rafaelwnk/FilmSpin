@@ -11,17 +11,16 @@
                     @for (film of films; track film.id) {
                     <div class="uk-width-3-4">
                         <div class="uk-panel">
-                            <img src="https://image.tmdb.org/t/p/w500/{{ film.poster_path }}" width="500" height="750"
+                            <img src="{{ film.poster_path }}" width="500" height="750"
                                 alt="">
                             <div
                                 class="uk-overlay uk-overlay-primary uk-position-bottom uk-text-center uk-transition-slide-bottom">
                                 <h3 class="uk-margin-remove">{{ film.title }} <span class="uk-article-meta">({{
-                                        film.release_date |
-                                        date:'yyyy' }})</span></h3>
-                                <p>{{ film.genres.join(', ') }} <span
+                                        film.release_date }})</span></h3>
+                                <p>{{ film.genresString }} <span
                                         class="uk-margin-small-left uk-margin-small-right">•</span>
                                     <span uk-icon="icon: star; ratio:0.9"></span><span>
-                                        {{ film.vote_average | number:'1.1-1' }}
+                                        {{ film.vote_average }}
                                     </span>
                                 </p>
                                 <a class="uk-button uk-button-text uk-text-muted" href="#film-description-modal"

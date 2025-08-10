@@ -91,25 +91,24 @@
     </div>
     <div id="film" class="uk-width-1-2@m uk-flex-first@m">
         @if (!interactionPending) {
-        @if (isUndefined) {
+        @if (hasError) {
         <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
             <div class="uk-card uk-card-body uk-text-center">
-                <span class="uk-card-title">Nenhum filme encontrado</span>
+                <span class="uk-card-title">{{ errorMessage }}</span>
             </div>
         </div>
         }
-        @if (film$ | async; as film) {
+        @if (film) {
         <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
             <div class="uk-card uk-card-secondary uk-card-hover uk-border-rounded uk-text-center uk-width-1-2@m">
                 <div class="uk-card-media-top">
-                    <img src="https://image.tmdb.org/t/p/w500/{{ film.poster_path }}" width="500" height="750" alt="">
+                    <img src="{{ film.poster_path }}" width="500" height="750" alt="">
                 </div>
                 <div class="uk-card-body">
-                    <h3 class="uk-card-title">{{ film.title }} <span class="uk-article-meta">({{ film.release_date |
-                            date:'yyyy' }})</span></h3>
-                    <p> {{ film.genres.join(', ') }} <span class="uk-margin-small-left uk-margin-small-right">•</span>
+                    <h3 class="uk-card-title">{{ film.title }} <span class="uk-article-meta">({{ film.release_date }})</span></h3>
+                    <p> {{ film.genresString }} <span class="uk-margin-small-left uk-margin-small-right">•</span>
                         <span uk-icon="icon: star; ratio:0.9"></span><span>
-                            {{ film.vote_average | number:'1.1-1' }}
+                            {{ film.vote_average }}
                         </span>
                     </p>
                     <a class="uk-button uk-button-text uk-text-muted" href="#film-description-modal"
