@@ -83,32 +83,38 @@
                         </div>
                     </div>
                 </form>
-                <a class="uk-button uk-button-secondary uk-border-rounded uk-margin-small-top"
-                    (click)="submit()" href="#film" uk-scroll>Spin</a>
+                <a class="uk-button uk-button-secondary uk-border-rounded uk-margin-small-top" (click)="submit()"
+                    href="#film" uk-scroll>Spin</a>
                 <a [routerLink]="['/history']" class="uk-icon-link uk-margin-medium-top" uk-icon="history"></a>
             </div>
         </div>
     </div>
     <div id="film" class="uk-width-1-2@m uk-flex-first@m">
         @if (!interactionPending) {
-        @if (hasError) {
+        @if(busy) {
+        <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle uk-light">
+            <div uk-spinner="ratio: 4.5"></div>
+        </div>
+        }
+        @else if (hasError) {
         <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
             <div class="uk-card uk-card-body uk-text-center">
                 <span class="uk-card-title">{{ errorMessage }}</span>
             </div>
         </div>
         }
-        @if (film) {
+        @else if (film) {
         <div class="uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
             <div class="uk-card uk-card-secondary uk-card-hover uk-border-rounded uk-text-center uk-width-1-2@m">
                 <div class="uk-card-media-top">
-                    <img src="{{ film.poster_path }}" width="500" height="750" alt="">
+                    <img src="{{ film.posterPath }}" width="500" height="750" alt="{{ film.title }}">
                 </div>
                 <div class="uk-card-body">
-                    <h3 class="uk-card-title">{{ film.title }} <span class="uk-article-meta">({{ film.release_date }})</span></h3>
-                    <p> {{ film.genresString }} <span class="uk-margin-small-left uk-margin-small-right">•</span>
+                    <h3 class="uk-card-title">{{ film.title }} <span class="uk-article-meta">({{ film.releaseYear
+                            }})</span></h3>
+                    <p> {{ film.genresDisplayText }} <span class="uk-margin-small-left uk-margin-small-right">•</span>
                         <span uk-icon="icon: star; ratio:0.9"></span><span>
-                            {{ film.vote_average }}
+                            {{ film.voteAverage }}
                         </span>
                     </p>
                     <a class="uk-button uk-button-text uk-text-muted" href="#film-description-modal"

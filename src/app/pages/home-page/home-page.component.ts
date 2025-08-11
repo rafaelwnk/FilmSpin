@@ -24,23 +24,27 @@ export class HomePageComponent {
   public errorMessage!: string;
   public interactionPending = true;
   public hasError = false;
+  public busy = false;
 
   constructor(private service: FilmService) { }
 
   submit() {
+    this.busy = true;
     this.interactionPending = false;
     this.service.getRandomFilm(this.form.value)
       .subscribe({
         next: (response: ApiResponse<Film>) => {
           this.film = response.data;
-          this.film.genresString = this.film.genres.map(x => x.name).join(', ')
+          this.film.genresDisplayText = this.film.genres.map(x => x.name).join(', ')
           this.hasError = false;
           HistoryUtil.add(this.film);
+          this.busy = false;
         },
         error: (err: any) => {
           this.hasError = true;
           this.film = undefined;
           this.errorMessage = err.error.message;
+          this.busy = false;
         }
       })
   }
